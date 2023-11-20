@@ -2,6 +2,7 @@ package com.skilldistillery.filmquery.app;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -55,7 +56,7 @@ public class FilmQueryApp {
 			System.out.println("[3] Exit");
 			System.out.println();
 
-			int option = sc.nextInt();
+			int option = userOption(sc);
 			sc.nextLine();
 
 			switch (option) {
@@ -63,7 +64,7 @@ public class FilmQueryApp {
 				System.out.print("Please enter the film ID: ");
 
 				try {
-					Film film = db.findFilmById(sc.nextInt());
+					Film film = db.findFilmById(userOption(sc));
 					sc.nextLine();
 					if (film.equals(null)) {
 					} else {
@@ -119,9 +120,20 @@ public class FilmQueryApp {
 				System.exit(0);
 				break;
 			default:
-				System.out.println("invalid choice.");
+				System.out.println("Try again.");
 			}
+			
 		}
+		
+	}
+	
+	public int userOption (Scanner sc){
+		try {
+			int choice = sc.nextInt();
+			return choice;
+		} catch (InputMismatchException e) {
+			System.out.println("Not a valid input");
+		} return 0;
 	}
 
 }
